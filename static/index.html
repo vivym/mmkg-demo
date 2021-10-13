@@ -85,9 +85,21 @@
 				<button class="btn btn-default btn-small form-control" name="data_submit" type="submit" onclick = "load_home()">条件性知识图谱</button>
 			</form>
 		</div>
-			<button class="btn btn-default btn-small form-control" name="data_submit" type="submit">Input</button>
-		<div>
-
+		<div id="top-wrap">
+			<div class="title">
+				<h1 align="center">
+					图片上传及匹配
+				</h1>
+			</div>
+		</div>
+		<div align="center">
+			<form method="post" enctype="multipart/form-data" id="file_upload">
+			　　<p>
+			　　　　<input type="file" id="test-image-file" name="test" accept="image/jpeg, image/png, image/jpg">
+			　　</p>
+			    <p><button class="btn btn-default btn-small form-control" name="img_submit" type="submit" onclick="load_home()">上传并匹配</button></p>
+			<p id="test-file-info"></p>
+			</form>
 		</div>
 
 		<div id="graph-frame">
@@ -134,6 +146,53 @@
 					//document.getElementById("real-sub-page").contentWindow.document.getElementById("show_graph").click();
 					document.getElementById("real-sub-page").contentWindow.comp_graphs();
 				};
+			};
+
+			var
+				fileInput = document.getElementById('test-image-file'),
+				info = document.getElementById('test-file-info');
+				// preview = document.getElementById('test-image-preview');
+			// 监听change事件:
+			fileInput.addEventListener('change', function() {
+				// // 清除背景图片:
+				// preview.style.backgroundImage = '';
+				// 检查文件是否选择:
+				if (!fileInput.value) {
+					info.innerHTML = '没有选择文件';
+					return;
+				}
+				// 获取File引用:
+				var file = fileInput.files[0];
+				//判断文件大小
+				var size = file.size;
+				if (size >= 1 * 1024 * 1024) {
+					alert('文件大小超出限制');
+					return false;
+				}
+				// 获取File信息:
+				info.innerHTML = '文件名称: ' + file.name + '<br>' +
+					'文件大小: ' + file.size + '<br>' +
+					'上传时间: ' + file.lastModifiedDate;
+				if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg') {
+						alert('不是有效的图片文件!');
+						return;
+					}
+					// 读取文件:
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						var
+							data = e.target.result;         
+						// preview.style.backgroundImage = 'url(' + data + ')';
+					};
+					// 以DataURL的形式读取文件:
+					reader.readAsDataURL(file);
+					
+			});
+				// upload button
+				function upload() {
+					// 获取File引用:
+					var file = fileInput.files[0];
+					// TODO The post request is todo
 			};
 		</script>
 	</div>
