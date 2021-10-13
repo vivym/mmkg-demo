@@ -17,6 +17,27 @@
   height: 200px;
 }
 
+.results-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-width: 60%;
+  flex-wrap: wrap;
+}
+
+.results-wrapper .result-box {
+  display: flex;
+  border: 2px dotted #aaa;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  margin: 10px;
+}
+
+.results-wrapper .result-box .word {
+  margin-right: 10px;  
+}
+
 
 html,
 body {

@@ -38,7 +38,7 @@ const fetch_relative_images = function (sent) {
 		fetch_relative_images_timer = null;
 		console.log("do fetching.", sent);
 		fetch_relative_images_impl(sent);
-	}, 2000);
+	}, 1000);
 }
 
 
