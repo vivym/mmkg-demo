@@ -1,3 +1,23 @@
+.relative-images-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.relative-images-wrapper .image-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.relative-images-wrapper .image-box img {
+  width: 200px;
+  height: 200px;
+}
+
+
 html,
 body {
   padding: 0;
