@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>SciKG</title>
+		<link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
+		<script src="/static/js/d3.v3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+		<script type="text/javascript" src="/static/js/echarts.min.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			// window.parent.statements_graph = "{&#39;nodes&#39;: [{&#39;id&#39;: 0, &#39;category&#39;: 1, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__stmt__&#39;}, {&#39;id&#39;: 1, &#39;category&#39;: 2, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__facts__&#39;}, {&#39;id&#39;: 2, &#39;category&#39;: 2, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__conditions__&#39;}, {&#39;id&#39;: 3, &#39;category&#39;: 3, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__concept_attribute__&#39;}, {&#39;name&#39;: &#39;stmt 1&#39;, &#39;label&#39;: &#39;S&#39;, &#39;id&#39;: 4, &#39;category&#39;: 1, &#39;rate&#39;: 3.0, &#39;type&#39;: &#39;normal&#39;, &#39;sent&#39;: &#39;姜 糖 水 可 以 治 疗 由 风 寒 导 致 的 感 冒 。&#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4, 8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;可以治疗&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 5, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (姜糖水, 可以治疗, 感冒), &#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;姜糖水&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 6, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (姜糖水, 可以治疗, 感冒), &#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;感冒&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 7, &#39;category&#39;: 3, &#39;rate&#39;: 2.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (姜糖水, 可以治疗, 感冒), Condition: (风寒, 导致, 感冒), &#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4, 8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;导致&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 8, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (风寒, 导致, 感冒), &#39;, &#39;tuple_indx&#39;: [8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;风寒&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 9, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (风寒, 导致, 感冒), &#39;, &#39;tuple_indx&#39;: [8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;stmt 2&#39;, &#39;label&#39;: &#39;S&#39;, &#39;id&#39;: 10, &#39;category&#39;: 1, &#39;rate&#39;: 10.0, &#39;type&#39;: &#39;normal&#39;, &#39;sent&#39;: &#39;中 美 科 研 团 队 在 最 新 一 期 《 细 胞 》 杂 志 撰 文 称 , 他 们 制 造 出 首 个 由 人 类 细 胞 和 猴 子 细 胞 共 同 组 成 的 胚 胎 , 这 些 嵌 合 体 有 助 科 学 家 进 一 步 在 其 它 物 种 体 内 （ 如 猪 ） 培 育 出 人 体 组 织 , 但 最 新 研 究 也 引 发 了 一 些 伦 理 争 议 。&#39;, &#39;tuple_indx&#39;: [11, 12, -1, -1, -1, 10, 13, 14, -1, 15, -1, 10, 16, 17, -1, 18, -1, 10, 19, 20, -1, 21, -1, 10, 22, 21, -1, 23, -1, 10, 24, -1, -1, 25, -1, 10, 26, -1, -1, 27, -1, 10, 28, 29, -1, 18, -1, 10, 30, 31, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;撰文&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 11, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (中科研团队, 撰文, nil), &#39;, &#39;tuple_indx&#39;: [11, 12, -1, -1, -1, 10]}, {&#39;name&#39;: &#39;中科研团队&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 12, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (中科研团队, 撰文, nil), &#39;, &#39;tuple_indx&#39;: [11, 12, -1, -1, -1, 10]}, {&#39;name&#39;: &#39;但也引发了&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 13, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (研究, 但也引发了, 争议), &#39;, &#39;tuple_indx&#39;: [13, 14, -1, 15, -1, 10]}, {&#39;name&#39;: &#39;研究&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 14, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (研究, 但也引发了, 争议), &#39;, &#39;tuple_indx&#39;: [13, 14, -1, 15, -1, 10]}, {&#39;name&#39;: &#39;争议&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 15, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (研究, 但也引发了, 争议), &#39;, &#39;tuple_indx&#39;: [13, 14, -1, 15, -1, 10]}, {&#39;name&#39;: &#39;制造出&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 16, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (他们, 制造出, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [16, 17, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;他们&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 17, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (他们, 制造出, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [16, 17, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;首个胚胎&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 18, &#39;category&#39;: 3, &#39;rate&#39;: 3.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (他们, 制造出, 首个胚胎), Condition: (人类细胞, 共同组成, 首个胚胎), Condition: (猴子细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [16, 17, -1, 18, -1, 10, 28, 29, -1, 18, -1, 10, 30, 31, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;有助&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 19, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (这些嵌合体, 有助, 科学家), &#39;, &#39;tuple_indx&#39;: [19, 20, -1, 21, -1, 10]}, {&#39;name&#39;: &#39;这些嵌合体&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 20, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (这些嵌合体, 有助, 科学家), &#39;, &#39;tuple_indx&#39;: [19, 20, -1, 21, -1, 10]}, {&#39;name&#39;: &#39;科学家&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 21, &#39;category&#39;: 3, &#39;rate&#39;: 2.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (这些嵌合体, 有助, 科学家), Fact: (科学家, 进一步培育出, 人体组织), &#39;, &#39;tuple_indx&#39;: [19, 20, -1, 21, -1, 10, 22, 21, -1, 23, -1, 10]}, {&#39;name&#39;: &#39;进一步培育出&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 22, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (科学家, 进一步培育出, 人体组织), &#39;, &#39;tuple_indx&#39;: [22, 21, -1, 23, -1, 10]}, {&#39;name&#39;: &#39;人体组织&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 23, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (科学家, 进一步培育出, 人体组织), &#39;, &#39;tuple_indx&#39;: [22, 21, -1, 23, -1, 10]}, {&#39;name&#39;: &#39;在&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 24, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 最新一期细胞杂志), &#39;, &#39;tuple_indx&#39;: [24, -1, -1, 25, -1, 10]}, {&#39;name&#39;: &#39;最新一期细胞杂志&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 25, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 最新一期细胞杂志), &#39;, &#39;tuple_indx&#39;: [24, -1, -1, 25, -1, 10]}, {&#39;name&#39;: &#39;在&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 26, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 其它物种体内), &#39;, &#39;tuple_indx&#39;: [26, -1, -1, 27, -1, 10]}, {&#39;name&#39;: &#39;其它物种体内&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 27, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 其它物种体内), &#39;, &#39;tuple_indx&#39;: [26, -1, -1, 27, -1, 10]}, {&#39;name&#39;: &#39;共同组成&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 28, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (人类细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [28, 29, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;人类细胞&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 29, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (人类细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [28, 29, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;共同组成&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 30, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (猴子细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [30, 31, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;猴子细胞&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 31, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (猴子细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [30, 31, -1, 18, -1, 10]}], &#39;links&#39;: [{&#39;source&#39;: 0, &#39;target&#39;: 4, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 1, &#39;target&#39;: 5, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 4, &#39;target&#39;: 5, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 6, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 5, &#39;target&#39;: 6, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 7, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 5, &#39;target&#39;: 7, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 2, &#39;target&#39;: 8, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 4, &#39;target&#39;: 8, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 9, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 8, &#39;target&#39;: 9, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 3, &#39;target&#39;: 7, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 8, &#39;target&#39;: 7, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 0, &#39;target&#39;: 10, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 1, &#39;target&#39;: 11, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 11, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 12, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 11, &#39;target&#39;: 12, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 1, &#39;target&#39;: 13, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 13, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 14, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 13, &#39;target&#39;: 14, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 15, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 13, &#39;target&#39;: 15, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 1, &#39;target&#39;: 16, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 16, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 17, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 16, &#39;target&#39;: 17, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 18, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 16, &#39;target&#39;: 18, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 1, &#39;target&#39;: 19, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 19, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 20, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 19, &#39;target&#39;: 20, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 21, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 19, &#39;target&#39;: 21, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 1, &#39;target&#39;: 22, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 22, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 21, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 22, &#39;target&#39;: 21, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 23, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 22, &#39;target&#39;: 23, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 2, &#39;target&#39;: 24, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 24, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 25, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 24, &#39;target&#39;: 25, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 2, &#39;target&#39;: 26, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 26, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 27, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 26, &#39;target&#39;: 27, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 2, &#39;target&#39;: 28, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 28, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 29, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 28, &#39;target&#39;: 29, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 3, &#39;target&#39;: 18, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 28, &#39;target&#39;: 18, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 2, &#39;target&#39;: 30, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 30, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 31, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 30, &#39;target&#39;: 31, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 3, &#39;target&#39;: 18, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 30, &#39;target&#39;: 18, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}]}";
+			var statements_graph = "{&#39;nodes&#39;: [{&#39;id&#39;: 0, &#39;category&#39;: 1, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__stmt__&#39;}, {&#39;id&#39;: 1, &#39;category&#39;: 2, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__facts__&#39;}, {&#39;id&#39;: 2, &#39;category&#39;: 2, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__conditions__&#39;}, {&#39;id&#39;: 3, &#39;category&#39;: 3, &#39;type&#39;: &#39;meta&#39;, &#39;name&#39;: &#39;__concept_attribute__&#39;}, {&#39;name&#39;: &#39;stmt 1&#39;, &#39;label&#39;: &#39;S&#39;, &#39;id&#39;: 4, &#39;category&#39;: 1, &#39;rate&#39;: 3.0, &#39;type&#39;: &#39;normal&#39;, &#39;sent&#39;: &#39;姜 糖 水 可 以 治 疗 由 风 寒 导 致 的 感 冒 。&#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4, 8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;可以治疗&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 5, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (姜糖水, 可以治疗, 感冒), &#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;姜糖水&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 6, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (姜糖水, 可以治疗, 感冒), &#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;感冒&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 7, &#39;category&#39;: 3, &#39;rate&#39;: 2.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (姜糖水, 可以治疗, 感冒), Condition: (风寒, 导致, 感冒), &#39;, &#39;tuple_indx&#39;: [5, 6, -1, 7, -1, 4, 8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;导致&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 8, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (风寒, 导致, 感冒), &#39;, &#39;tuple_indx&#39;: [8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;风寒&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 9, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (风寒, 导致, 感冒), &#39;, &#39;tuple_indx&#39;: [8, 9, -1, 7, -1, 4]}, {&#39;name&#39;: &#39;stmt 2&#39;, &#39;label&#39;: &#39;S&#39;, &#39;id&#39;: 10, &#39;category&#39;: 1, &#39;rate&#39;: 10.0, &#39;type&#39;: &#39;normal&#39;, &#39;sent&#39;: &#39;中 美 科 研 团 队 在 最 新 一 期 《 细 胞 》 杂 志 撰 文 称 , 他 们 制 造 出 首 个 由 人 类 细 胞 和 猴 子 细 胞 共 同 组 成 的 胚 胎 , 这 些 嵌 合 体 有 助 科 学 家 进 一 步 在 其 它 物 种 体 内 （ 如 猪 ） 培 育 出 人 体 组 织 , 但 最 新 研 究 也 引 发 了 一 些 伦 理 争 议 。&#39;, &#39;tuple_indx&#39;: [11, 12, -1, -1, -1, 10, 13, 14, -1, 15, -1, 10, 16, 17, -1, 18, -1, 10, 19, 20, -1, 21, -1, 10, 22, 21, -1, 23, -1, 10, 24, -1, -1, 25, -1, 10, 26, -1, -1, 27, -1, 10, 28, 29, -1, 18, -1, 10, 30, 31, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;撰文&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 11, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (中科研团队, 撰文, nil), &#39;, &#39;tuple_indx&#39;: [11, 12, -1, -1, -1, 10]}, {&#39;name&#39;: &#39;中科研团队&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 12, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (中科研团队, 撰文, nil), &#39;, &#39;tuple_indx&#39;: [11, 12, -1, -1, -1, 10]}, {&#39;name&#39;: &#39;但也引发了&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 13, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (研究, 但也引发了, 争议), &#39;, &#39;tuple_indx&#39;: [13, 14, -1, 15, -1, 10]}, {&#39;name&#39;: &#39;研究&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 14, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (研究, 但也引发了, 争议), &#39;, &#39;tuple_indx&#39;: [13, 14, -1, 15, -1, 10]}, {&#39;name&#39;: &#39;争议&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 15, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (研究, 但也引发了, 争议), &#39;, &#39;tuple_indx&#39;: [13, 14, -1, 15, -1, 10]}, {&#39;name&#39;: &#39;制造出&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 16, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (他们, 制造出, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [16, 17, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;他们&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 17, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (他们, 制造出, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [16, 17, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;首个胚胎&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 18, &#39;category&#39;: 3, &#39;rate&#39;: 3.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (他们, 制造出, 首个胚胎), Condition: (人类细胞, 共同组成, 首个胚胎), Condition: (猴子细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [16, 17, -1, 18, -1, 10, 28, 29, -1, 18, -1, 10, 30, 31, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;有助&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 19, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (这些嵌合体, 有助, 科学家), &#39;, &#39;tuple_indx&#39;: [19, 20, -1, 21, -1, 10]}, {&#39;name&#39;: &#39;这些嵌合体&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 20, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (这些嵌合体, 有助, 科学家), &#39;, &#39;tuple_indx&#39;: [19, 20, -1, 21, -1, 10]}, {&#39;name&#39;: &#39;科学家&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 21, &#39;category&#39;: 3, &#39;rate&#39;: 2.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (这些嵌合体, 有助, 科学家), Fact: (科学家, 进一步培育出, 人体组织), &#39;, &#39;tuple_indx&#39;: [19, 20, -1, 21, -1, 10, 22, 21, -1, 23, -1, 10]}, {&#39;name&#39;: &#39;进一步培育出&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 22, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (科学家, 进一步培育出, 人体组织), &#39;, &#39;tuple_indx&#39;: [22, 21, -1, 23, -1, 10]}, {&#39;name&#39;: &#39;人体组织&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 23, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Fact: (科学家, 进一步培育出, 人体组织), &#39;, &#39;tuple_indx&#39;: [22, 21, -1, 23, -1, 10]}, {&#39;name&#39;: &#39;在&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 24, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 最新一期细胞杂志), &#39;, &#39;tuple_indx&#39;: [24, -1, -1, 25, -1, 10]}, {&#39;name&#39;: &#39;最新一期细胞杂志&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 25, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 最新一期细胞杂志), &#39;, &#39;tuple_indx&#39;: [24, -1, -1, 25, -1, 10]}, {&#39;name&#39;: &#39;在&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 26, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 其它物种体内), &#39;, &#39;tuple_indx&#39;: [26, -1, -1, 27, -1, 10]}, {&#39;name&#39;: &#39;其它物种体内&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 27, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (nil, 在, 其它物种体内), &#39;, &#39;tuple_indx&#39;: [26, -1, -1, 27, -1, 10]}, {&#39;name&#39;: &#39;共同组成&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 28, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (人类细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [28, 29, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;人类细胞&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 29, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (人类细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [28, 29, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;共同组成&#39;, &#39;label&#39;: &#39;P&#39;, &#39;id&#39;: 30, &#39;category&#39;: 2, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (猴子细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [30, 31, -1, 18, -1, 10]}, {&#39;name&#39;: &#39;猴子细胞&#39;, &#39;label&#39;: &#39;C&#39;, &#39;id&#39;: 31, &#39;category&#39;: 3, &#39;rate&#39;: 1.0, &#39;type&#39;: &#39;normal&#39;, &#39;tuples&#39;: &#39;Condition: (猴子细胞, 共同组成, 首个胚胎), &#39;, &#39;tuple_indx&#39;: [30, 31, -1, 18, -1, 10]}], &#39;links&#39;: [{&#39;source&#39;: 0, &#39;target&#39;: 4, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 1, &#39;target&#39;: 5, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 4, &#39;target&#39;: 5, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 6, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 5, &#39;target&#39;: 6, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 7, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 5, &#39;target&#39;: 7, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 2, &#39;target&#39;: 8, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 4, &#39;target&#39;: 8, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 9, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 8, &#39;target&#39;: 9, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 3, &#39;target&#39;: 7, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 8, &#39;target&#39;: 7, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 0, &#39;target&#39;: 10, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 1, &#39;target&#39;: 11, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 11, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 12, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 11, &#39;target&#39;: 12, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 1, &#39;target&#39;: 13, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 13, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 14, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 13, &#39;target&#39;: 14, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 15, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 13, &#39;target&#39;: 15, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 1, &#39;target&#39;: 16, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 16, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 17, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 16, &#39;target&#39;: 17, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 18, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 16, &#39;target&#39;: 18, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 1, &#39;target&#39;: 19, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 19, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 20, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 19, &#39;target&#39;: 20, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 21, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 19, &#39;target&#39;: 21, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 1, &#39;target&#39;: 22, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 22, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Fact&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 21, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 22, &#39;target&#39;: 21, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 3, &#39;target&#39;: 23, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 22, &#39;target&#39;: 23, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103, &#39;rate&#39;: 2}, {&#39;source&#39;: 2, &#39;target&#39;: 24, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 24, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 25, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 24, &#39;target&#39;: 25, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 2, &#39;target&#39;: 26, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 26, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 27, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 26, &#39;target&#39;: 27, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 2, &#39;target&#39;: 28, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 28, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 29, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 28, &#39;target&#39;: 29, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 3, &#39;target&#39;: 18, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 28, &#39;target&#39;: 18, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 2, &#39;target&#39;: 30, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 10, &#39;target&#39;: 30, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;Condition&#39;, &#39;category&#39;: 101}, {&#39;source&#39;: 3, &#39;target&#39;: 31, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 30, &#39;target&#39;: 31, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;SUBJECT&#39;, &#39;category&#39;: 103}, {&#39;source&#39;: 3, &#39;target&#39;: 18, &#39;type&#39;: &#39;metalink&#39;}, {&#39;source&#39;: 30, &#39;target&#39;: 18, &#39;type&#39;: &#39;outer&#39;, &#39;name&#39;: &#39;OBJECT&#39;, &#39;category&#39;: 103}]}";
+
+			var categories = [{name: '实体'}, {name: '属性'}, {name: '可点击'}];
+			var keywords = "首个胚胎 感冒 科学家";
+			var keyword_lst = keywords.split(" ");
+			var node_list = [[{'name': '首个胚胎', 'symbolSize': 40, 'category': 0}, {'name': '胚胎', 'symbolSize': 30, 'category': 1}, {'name': '物', 'symbolSize': 30, 'category': 1}], [{'name': '感冒', 'symbolSize': 40, 'category': 0}, {'name': '中医', 'symbolSize': 30, 'category': 1}, {'name': '肺和呼吸道疾病', 'symbolSize': 30, 'category': 1}, {'name': '炎症', 'symbolSize': 30, 'category': 1}, {'name': '呼吸系统疾病', 'symbolSize': 30, 'category': 1}, {'name': '鼻炎', 'symbolSize': 30, 'category': 1}, {'name': '科学', 'symbolSize': 30, 'category': 1}, {'name': '疾病', 'symbolSize': 30, 'category': 1}, {'name': '中医疾病', 'symbolSize': 30, 'category': 1}, {'name': '常见疾病', 'symbolSize': 30, 'category': 1}, {'name': '小儿疾病', 'symbolSize': 30, 'category': 1}, {'name': '医学术语', 'symbolSize': 30, 'category': 1}, {'name': '母婴病症和急救', 'symbolSize': 30, 'category': 1}, {'name': '应用科学', 'symbolSize': 30, 'category': 1}, {'name': '学科', 'symbolSize': 30, 'category': 1}, {'name': '抽象事物', 'symbolSize': 30, 'category': 1}, {'name': '医生', 'symbolSize': 30, 'category': 1}, {'name': '人', 'symbolSize': 30, 'category': 1}], [{'name': '科学家', 'symbolSize': 40, 'category': 0}, {'name': '人/人物', 'symbolSize': 30, 'category': 1}, {'name': '专家', 'symbolSize': 30, 'category': 1}]];
+			var edge_list = [[{'source': '首个胚胎', 'target': '胚胎', 'name': 'type'}, {'source': '胚胎', 'target': '物', 'name': 'subclassof'}], [{'source': '感冒', 'target': '中医', 'name': 'type'}, {'source': '感冒', 'target': '肺和呼吸道疾病', 'name': 'type'}, {'source': '感冒', 'target': '炎症', 'name': 'type'}, {'source': '感冒', 'target': '呼吸系统疾病', 'name': 'type'}, {'source': '感冒', 'target': '鼻炎', 'name': 'type'}, {'source': '感冒', 'target': '中医疾病', 'name': 'type'}, {'source': '感冒', 'target': '常见疾病', 'name': 'type'}, {'source': '感冒', 'target': '小儿疾病', 'name': 'type'}, {'source': '感冒', 'target': '医学术语', 'name': 'type'}, {'source': '感冒', 'target': '母婴病症和急救', 'name': 'type'}, {'source': '感冒', 'target': '应用科学', 'name': 'type'}, {'source': '中医', 'target': '学科', 'name': 'subclassof'}, {'source': '学科', 'target': '抽象事物', 'name': 'subclassof'}, {'source': '中医', 'target': '医生', 'name': 'subclassof'}, {'source': '医生', 'target': '人', 'name': 'subclassof'}, {'source': '炎症', 'target': '疾病', 'name': 'subclassof'}, {'source': '疾病', 'target': '抽象事物', 'name': 'subclassof'}, {'source': '鼻炎', 'target': '疾病', 'name': 'subclassof'}, {'source': '科学', 'target': '抽象事物', 'name': 'subclassof'}, {'source': '常见疾病', 'target': '疾病', 'name': 'subclassof'}, {'source': '小儿疾病', 'target': '疾病', 'name': 'subclassof'}, {'source': '应用科学', 'target': '科学', 'name': 'subclassof'}, {'source': '肺和呼吸道疾病', 'target': '疾病', 'name': 'subclassof'}, {'source': '呼吸系统疾病', 'target': '疾病', 'name': 'subclassof'}, {'source': '中医疾病', 'target': '疾病', 'name': 'subclassof'}], [{'source': '科学家', 'target': '专家', 'name': 'type'}, {'source': '专家', 'target': '人/人物', 'name': 'subclassof'}]];
+			for (let index = 0; index < 3; index++){
+				var chart = echarts.init(parent.window.document.getElementById("entity"+index));
+				if(index < keyword_lst.length){
+					cilin_option = {
+						// 图的标题
+						title: {
+							text: keyword_lst[index],
+							left:'center'
+						},
+						/*
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        */
+						series: [{
+							type: 'graph', // 类型:关系图
+							layout: 'force', //图的布局，类型为力导图
+							symbolSize: 20, // 调整节点的大小
+							roam: 'move', // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+							edgeSymbol: ['circle', 'arrow'],
+							edgeSymbolSize: [2, 6],
+							edgeLabel: {
+								normal: {
+									textStyle: {
+										fontSize: 15
+									}
+								}
+							},
+							force: {
+								gravity: 0.05,	// 引力
+								repulsion: 600,	// 斥力
+								edgeLength: [10, 20]
+							},
+							draggable: true,
+							focusNodeAdjacency: true, // 布尔值。是否在鼠标移到节点上的时候突出显示节点以及节点的边和邻接节点。
+							lineStyle: {
+								normal: {
+									width: 1,
+									color: '#4b565b',
+								}
+							},
+							edgeLabel: {
+								normal: {
+									//show: false
+									show: true,
+									formatter: function (x) {
+										return x.data.name;
+									}
+								}
+							},
+							label: {
+								normal: {
+									show: true,
+									textStyle: {}
+								}
+							},
+
+							// 数据
+							data: node_list[index],
+							links: edge_list[index],
+							categories: categories,
+						}]
+					};
+					chart.setOption(cilin_option);
+				}
+			}
+
+			/*
+			var keywords = "首个胚胎 感冒 科学家";
+			var keyword_lst = keywords.split(" ")
+
+			for (let index = 0; index < keyword_lst.length; index++) {
+				const element = keyword_lst[index];
+				var iframe = parent.window.frames["iframe"+ index];
+				var tmp_iframe = parent.window.frames["tmp"];
+				tmp_iframe.src = "http://101.200.120.155/WSDTest/?q=" + element;
+				iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+				//iframedoc.body.innerHTML = 'hello ' + element;
+
+				try {
+					iframe.src = "http://101.200.120.155/WSDTest/?q=" + element;
+					console.log(iframe);
+					//iframedoc.body.innerHTML = window.parent.document.getElementById("hierarchy").innerText;
+				} catch (error) {
+					continue
+				}
+
+
+				// https://segmentfault.com/a/1190000012550346
+				// $.ajax({
+				// 	url:"http://101.200.120.155",
+				// 	dataType:'html',
+				// 	contentType: "application/x-www-form-urlencoded",
+				// 	type:'send',
+				// 	async:'true',
+				// 	success:function(data){
+				// 		console.log(data);
+				// 		// $("#test").html(data)
+				// 	},error:function(){
+				//
+				// 	}
+				// })
+			}*/
+
+		</script>
+
+		<script src="/static/js/doc_graph.js"> </script>
+
+		<!-- <a id="show_graph" class="btn-show" href = "javascript:void(0)"
+				onclick = 'window.parent.comp_graphs()'>SciKG</a> -->
+		<!-- <a id="show_graph" class="btn-show" href = "javascript:void(0)"
+		   		onclick = 'comp_graphs()'>SciKG</a> -->
+		<br/>
+
+		<div id="light" class="white_content">
+			<!-- <div id='close'>
+				<a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';parent.document.getElementById('main-body').style.overflow='auto';document.querySelector('.doc-focus').checked=false" id='a-close'>CLOSE</a>
+			</div> -->
+			<!-- <div id="display-control">
+				<input type="checkbox" name="display-focus" class="doc-focus">Display Matched Tuples<br>
+			</div> -->
+			<div id="doc1">
+				<div id="left-wrap">
+					<div id="svg-wrap">
+						<svg xmlns:svg="http://www.w3.org/2000/svg"
+							xmlns="http://www.w3.org/2000/svg"
+							version="1.0" id="main-view" > </svg>
+					</div>
+				</div>
+				<div id="control-wrap">
+					<div class="row">
+						<h3> 链接信息详情 </h3>
+						<div id="explaination-link">
+						</div>
+					</div>
+					<div class="row2">
+						<h3> 节点信息详情 </h3>
+						<div id="explaination-node">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="doc2">
+				<div id="left-wrap2">
+					<div id="svg-wrap2">
+						<svg xmlns:svg="http://www.w3.org/2000/svg"
+							xmlns="http://www.w3.org/2000/svg"
+							version="1.0" id="main-view2" > </svg>
+					</div>
+				</div>
+				<div id="control-wrap2">
+					<div class="row">
+						<h3> Link Detail </h3>
+						<div id="graph-link">
+						</div>
+					</div>
+					<div class="row2">
+						<h3> Node Detail </h3>
+						<div id="graph-node">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div id="fade" class="black_overlay" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';window.parent.document.getElementById('main-body').style.overflow='auto'"></div> -->
+	</body>
+</html>

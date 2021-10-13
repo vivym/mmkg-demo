@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<!-- <meta charset="UTF-8"> -->
+		<meta http-equiv="Content-Type" content="：text/html; charset=utf8">
+		<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/static/css/style.css" type="text/css" media="screen" charset="utf-8" />
+		<script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+		<script src="/static/js/d3.v3.min.js" charset="utf-8"></script>
+		<title>条件性知识图谱（演示系统）</title>
+	</head>
+	<body id='main-body' style="background-color: #ccc">
+	<div style="max-width: 1300px;min-width: auto;margin: 0 auto;background-color: white;box-shadow: 0.4em 0.4em 0.5em rgba(0,0,0,.3)">
+		<script type="text/javascript">
+			var statements_graph;
+		</script>
+		<!-- <script src="/static/js/doc_graph.js"> </script>
+		<div id="light" class="white_content">
+			<div id='close'>
+				<a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';parent.document.getElementById('main-body').style.overflow='auto';document.querySelector('.doc-focus').checked=false" id='a-close'>CLOSE</a>
+			</div>
+			<div id="doc1">
+				<div id="left-wrap">
+					<div id="svg-wrap">
+						<svg xmlns:svg="http://www.w3.org/2000/svg"
+							xmlns="http://www.w3.org/2000/svg"
+							version="1.0" id="main-view" > </svg>
+					</div>
+				</div>
+				<div id="control-wrap">
+					<div class="row">
+						<h3> 链接信息详情 </h3>
+						<div id="explaination-link">
+						</div>
+					</div>
+					<div class="row2">
+						<h3> 节点信息详情 </h3>
+						<div id="explaination-node">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="doc2">
+				<div id="left-wrap">
+					<div id="svg-wrap2">
+						<svg xmlns:svg="http://www.w3.org/2000/svg"
+							xmlns="http://www.w3.org/2000/svg"
+							version="1.0" id="main-view2" > </svg>
+					</div>
+				</div>
+				<div id="control-wrap">
+					<div class="row">
+						<h3> Link Detail </h3>
+						<div id="graph-link">
+						</div>
+					</div>
+					<div class="row2">
+						<h3> Node Detail </h3>
+						<div id="graph-node">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		
+        <!-- <div id="fade" class="black_overlay" onclick = "document.getElementById('light').style.display='none';document.getElementById('stmt-light').style.display='none';document.getElementById('fade').style.display='none';parent.document.getElementById('main-body').style.overflow='auto'"></div> -->
+
+		<div id="top-wrap">
+			<div class="title">
+				<h1 align="center">
+					条件性知识图谱（中文通用域演示系统）
+				</h1>
+			</div>
+		</div>
+		<div id="input-wrap" >
+			<form id='text-form' name='passtext' action="/structuring" method="post" target="my_iframe">
+				<div id="input-text">
+					<textarea type="text" name="text" id='input-area' style="resize: none">姜糖水可以治疗由风寒导致的感冒。中美科研团队在最新一期《细胞》杂志撰文称, 他们制造出首个由人类细胞和猴子细胞共同组成的胚胎, 这些嵌合体有助科学家进一步在其它物种体内（如猪）培育出人体组织, 但最新研究也引发了一些伦理争议。</textarea><br />
+					<textarea type="text" name="qs" style="display: none" readonly="readonly">
+						CTGA
+					</textarea>
+				</div>
+				<button class="btn btn-default btn-small form-control" name="data_submit" type="submit" onclick = "load_home()">条件性知识图谱</button>
+			</form>
+		</div>
+			<button class="btn btn-default btn-small form-control" name="data_submit" type="submit">Input</button>
+		<div>
+
+		</div>
+
+		<div id="graph-frame">
+			<iframe id="sub-page"></iframe>
+			<iframe name="my_iframe" id="real-sub-page" style="display: none"></iframe>
+		</div>
+
+		<div id="div0" style="height: 0px; padding-bottom: 50px; padding-left: 70px; padding-right: 70px;">			
+			<div id="bigcilin" style="height: 100%; border-top: 1px solid #bbbbbb; border-bottom: 1px solid #bbbbbb;">
+				<div id="entity0" style="width:385px;height:100%;float: left;background-color: beige; border-right:1px solid #bbbbbb; border-left: 1px solid #bbbbbb;">
+				</div>
+				<div id="entity1" style="width:386px;height:100%;float: left;background-color: beige; border-right:1px solid #bbbbbb;"></div>
+				<div id="entity2" style="width:385px;height:100%;float: left;background-color: beige; border-right:1px solid #bbbbbb;"></div>
+			</div>
+		</div>
+
+		<script>
+			function load_home() {
+				var input_text = $("#input-area").val();
+				var input_length = input_text.split(' ').length;
+				//var sub_page = $("#real-sub-page")[0].contentDocument.URL;
+				//console.log(sub_page);
+				document.getElementById("sub-page").contentWindow.document.body.innerHTML = `<object type="text/html" data="/static/loading.html?length=${input_length}" width="100%" height="50%"></object>`;
+				document.getElementById("sub-page").style.display = 'block';
+				document.getElementById("real-sub-page").style.display = 'none';
+
+				document.getElementById("div0").style.height = "652px";
+			};
+			//var count = 0;
+			//var explorer = window.navigator.userAgent;
+			//var sub_page = $("#real-sub-page")[0].contentDocument.URL;
+			//console.log(sub_page);
+			//console.log(explorer);
+			document.getElementById("real-sub-page").onload = function() {
+				//alert("onload");
+				var sub_page = $("#real-sub-page")[0].contentDocument.URL;
+				//console.log(sub_page);
+				if(sub_page.indexOf("about:blank") >= 0){
+					return;
+				}
+				else{
+					document.getElementById("sub-page").style.display='none';
+					document.getElementById("real-sub-page").style.display='block';
+					//document.getElementById("real-sub-page").contentWindow.document.getElementById("show_graph").click();
+					document.getElementById("real-sub-page").contentWindow.comp_graphs();
+				};
+			};
+		</script>
+	</div>
+	</body>
+</html>
