@@ -85,6 +85,22 @@
 				<button class="btn btn-default btn-small form-control" name="data_submit" type="submit" onclick = "load_home()">条件性知识图谱</button>
 			</form>
 		</div>
+		<div id="top-wrap">
+			<div class="title">
+				<h1 align="center">
+					图片上传及匹配
+				</h1>
+			</div>
+		</div>
+		<div align="center">
+			<form method="post" enctype="multipart/form-data" id="file_upload">
+			　　<p>
+			　　　　<input type="file" id="test-image-file" name="test" accept="image/jpeg, image/png, image/jpg">
+			　　</p>
+			    <p><button class="btn btn-default btn-small form-control" name="img_submit" type="submit" onclick="load_home()">上传并匹配</button></p>
+			<p id="test-file-info"></p>
+			</form>
+		</div>
 
 		<div id="graph-frame">
 			<iframe id="sub-page"></iframe>
